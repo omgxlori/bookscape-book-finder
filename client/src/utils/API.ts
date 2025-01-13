@@ -1,9 +1,9 @@
 import type { User } from '../models/User.js';
 import type { Book } from '../models/Book.js';
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://bookscape-c4np.onrender.com';
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://bookscape-c4np.onrender.com/api';
 
-// route to get logged in user's info (needs the token)
+// route to get logged-in user's info (needs the token)
 export const getMe = (token: string) => {
   return fetch(`${API_BASE_URL}/users/me`, {
     headers: {
@@ -33,12 +33,12 @@ export const loginUser = (userData: User) => {
   });
 };
 
-// save book data for a logged in user
+// save book data for a logged-in user
 export const saveBook = (bookData: Book, token: string) => {
   console.log('📚 Sending book data to save:', bookData);
 
   return fetch(`${API_BASE_URL}/users/books`, {
-    method: 'POST', // Change PUT to POST to match the route
+    method: 'POST', // Ensure the backend is expecting POST
     headers: {
       'Content-Type': 'application/json',
       authorization: `Bearer ${token}`,
@@ -46,7 +46,6 @@ export const saveBook = (bookData: Book, token: string) => {
     body: JSON.stringify(bookData),
   });
 };
-
 
 // remove saved book data for a logged-in user
 export const deleteBook = (bookId: string, token: string) => {
