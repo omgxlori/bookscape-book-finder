@@ -9,6 +9,7 @@ import { authMiddleware } from './services/auth.js';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import userRoutes from './routes/api/user-routes.js';
+import path from 'path'; // Import path for serving static files
 
 dotenv.config();
 
@@ -26,7 +27,7 @@ interface Context {
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
+app.use(cors({ origin: '*', credentials: true })); // Adjust CORS for deployment
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use('/api/users', userRoutes);
@@ -55,6 +56,15 @@ mongoose.connect(uri)
           },
         })
       );
+
+      // Serve React static files
+      const reactBuildPath = path.join(__dirname, '../client/dist');
+      app.use(express.static(reactBuildPath));
+
+      // Catch-all route to serve React's index.html
+      app.get('*', (req, res) => {
+        res.sendFile(path.join(reactBuildPath, 'index.html'));
+      });
 
       app.listen(PORT, () => {
         console.log(`🌍 Server is running on http://localhost:${PORT}`);
