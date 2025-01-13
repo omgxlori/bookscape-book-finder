@@ -8,9 +8,13 @@ import { resolvers } from './schemas/resolvers.js';
 import { authMiddleware } from './services/auth.js';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import userRoutes from './routes/api/user-routes.js';
 
 dotenv.config();
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 interface AuthenticatedUser {
   _id: string;
@@ -20,7 +24,6 @@ interface AuthenticatedUser {
 
 interface Context {
   user: AuthenticatedUser | null;
-  req: ExpressContextFunctionArgument['req'];
 }
 
 const app = express();
@@ -31,7 +34,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use('/api/users', userRoutes);
 
-// MongoDB connection
 const uri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/googlebooks';
 
 mongoose.connect(uri)
@@ -51,10 +53,18 @@ mongoose.connect(uri)
         expressMiddleware(server, {
           context: async ({ req }: ExpressContextFunctionArgument): Promise<Context> => {
             const { user } = authMiddleware({ req });
-            return { user, req };
+            return { user }; // Include only the user in the context
           },
         })
       );
+
+      // Serve static files in production
+      if (process.env.NODE_ENV === 'production') {
+        app.use(express.static(path.join(__dirname, '../../client/dist')));
+        app.get('*', (_, res) => {
+          res.sendFile(path.join(__dirname, '../../client/dist/index.html'));
+        });
+      }
 
       app.listen(PORT, () => {
         console.log(`🌍 Server is running on http://localhost:${PORT}`);
