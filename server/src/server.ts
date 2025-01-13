@@ -52,10 +52,10 @@ mongoose.connect(uri)
         expressMiddleware(server, {
           context: async ({ req }: ExpressContextFunctionArgument): Promise<Context> => {
             const { user } = authMiddleware({ req });
-            return { user, req };
+            return { user };
           },
         })
-      );
+      );      
 
       // Serve React static files
       const reactBuildPath = path.join(__dirname, '../client/dist');
