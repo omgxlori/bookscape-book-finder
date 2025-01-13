@@ -57,8 +57,8 @@ mongoose.connect(uri)
       );
 
       app.listen(PORT, () => {
-        console.log("🌍 Server is running on http://localhost:${PORT}");
-        console.log("🚀 GraphQL Server ready at http://localhost:${PORT}/graphql");
+        console.log(`🌍 Server is running on http://localhost:${PORT}`);
+        console.log(`🚀 GraphQL Server ready at http://localhost:${PORT}/graphql`);
       });
     }
 
