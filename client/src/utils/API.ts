@@ -1,7 +1,7 @@
 import type { User } from '../models/User.js';
 import type { Book } from '../models/Book.js';
 
-const API_BASE_URL = 'http://localhost:3001/api';
+const API_BASE_URL = 'https://bookscape-c4np.onrender.com';
 
 // route to get logged in user's info (needs the token)
 export const getMe = (token: string) => {
