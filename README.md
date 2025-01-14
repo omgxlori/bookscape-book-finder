@@ -9,7 +9,8 @@ Bookscape Book Finder is a MERN-stack application that allows users to search fo
 - [Deployed Website](#deployed-website)
 - [Tech Stack](#tech-stack)
 - [Installation](#installation)
-- [Apollo Server](#apollo-server)
+- [Running the Application Locally](#running-the-application-locally)
+- [GraphQL Queries and Mutations](#graphql-queries-and-mutations)
 - [Future Developments](#future-developments)
 - [Contributing](#contributing)
 - [Support](#support)
@@ -30,7 +31,7 @@ Bookscape Book Finder is a MERN-stack application that allows users to search fo
 
 ## Deployed Website
 
-To view the deployed website, please visit (insert website here.)
+To view the deployed website, please visit https://bookscape-c4np.onrender.com/
 
 ## Tech Stack
 
@@ -82,6 +83,8 @@ Start the Server:
 
 ```md
 cd server
+npm i
+npm run build
 npm run start
 ```
 
@@ -89,47 +92,97 @@ Start the Client:
 
 ```md
 cd client
+npm i
+npm run build
 npm run dev
 ```
 
 Visit http://localhost:3000 to access the app.
 
-## Deployment
+## GraphQL Queries and Mutations
 
-The application is deployed on Render. The client and server are built and deployed together.
+To explore and test the queries and mutations available in this project, follow these steps:
 
-Deployment Steps
+1. Access Apollo Sandbox: https://studio.apollographql.com/sandbox/explorer
 
-Push changes to the main branch of the GitHub repository.
+2. Go to the Settings tab and set the endpoint to:
+https://bookscape-c4np.onrender.com//graphql
 
-Ensure the correct environment variables are set in Render.
+3. Add JWT Token in the Header
+In the Headers section, add an Authorization header with the following format:
+```md
+Authorization: Bearer <your_jwt_token>
+```
+Replace <your_jwt_token> with the valid JWT token you received after logging in/creating an account.
 
-Verify that the deployment succeeds and the application is live.
+4. Explore Queries and Mutations
+Use the Explorer tab to run queries and mutations. Here are some examples:
 
-API Endpoints
+Query Your Login Info
 
-Queries
+```md
+query Query {
+  me {
+    username
+    email
+  }
+}
+```
 
-me: Returns the logged-in user's data.
+View Saved Books
+```md
+graphql
+Copy code
+query Query {
+  savedBooks {
+    id
+    authors
+    title
+    description
+  }
+}
+```
 
-Mutations
+Save a New Book
+```md
+mutation Mutation($book: BookInput!) {
+  saveBook(book: $book) {
+    id
+    authors
+    title
+    description
+  }
+}
+```
 
-login: Logs in a user.
+Delete a Book
 
-addUser: Creates a new user.
+```md
+mutation Mutation($bookId: ID!) {
+  deleteBook(bookId: $bookId) {
+    id
+    title
+  }
+}
+```
 
-saveBook: Saves a book to the user's library.
+## Future Developments
 
-removeBook: Removes a book from the user's library.
+- Add advanced search filters (e.g., by author, genre).
 
-## Roadmap
+- Implement book categories for better organization.
 
-Add advanced search filters (e.g., by author, genre).
+- Improve UI/UX with additional animations and feedback.
 
-Implement book categories for better organization.
+## Contributing
+Feel free to open issues or submit pull requests. Contributions are welcome!
 
-Improve UI/UX with additional animations and feedback.
+## Support
+If you need help using this project or encounter issues, please reach out via the following options:
+
+GitHub Issues: Report bugs or request features by opening an issue in the GitHub repository.
+Email: Contact me at lbelovin@gmail.com for any inquiries.
+You can also find more of my work at [https://github.com/omgxlori](https://github.com/omgxlori)
 
 ## License
-
-This project is licensed under the MIT License.
+This project is licensed under the MIT License. See the LICENSE file for details.
