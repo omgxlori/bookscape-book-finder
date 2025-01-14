@@ -48,7 +48,9 @@ mongoose.connect(uri)
     const server = new ApolloServer<Context>({
       typeDefs,
       resolvers,
+      introspection: true, // Enable introspection
     });
+     
 
     async function startApolloServer() {
       await server.start();
